@@ -11,7 +11,7 @@ import { Order } from '../interfaces/order';
 })
 export class ApiService {
 
-  private apiServer = "http://localhost:3000";
+  private apiServer = "https://naaserver.herokuapp.com";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
