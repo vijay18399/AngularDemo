@@ -1,0 +1,65 @@
+<div class="bar">
+  <h1>Customers</h1>
+<a class="btn btn-primary" (click)="layoutChanger()" >Change Layout to {{ layout }}</a>
+<a class="btn btn-success" (click)="Add()" >Add Customer</a>
+</div>
+<hr>
+<div class="container-fluid">
+<div *ngIf="!editing; else editBlock" class="row">
+  <div class="col-sm-12 form-group">
+    <label for="exampleInputEmail1">Search</label>
+    <input type="text" class="form-control" placeholder="Search Here by First Name" [(ngModel)]="term">
+  </div>
+  <br>
+  <div *ngFor="let customer of customers| filter: term;  let i = index " class="{{gridClass}}">
+    <!-- <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{customer.full_name }}</h5>
+        <p class="card-text"> {{customer.address.street }} ,{{customer.address.city }} ,{{customer.address.state }}</p>
+        <a  (click)="detailsOf(customer.uid)" class="btn btn-primary">Details</a>    <a (click)="Edit(i)" class="btn btn-danger">Edit</a>
+      </div>
+    </div> -->
+ <app-card  (editButton)="Edit($event)" (detailButton)="detailsOf($event)" [fullName]="customer.full_name"
+ [address]="customer.address" [Index]="i" [uid]="customer.uid"  ></app-card>
+  </div>
+ 
+</div>
+</div>
+<ng-template #editBlock>
+  <div  class="container-fluid">
+  <form [formGroup]="CustomerForm"  (ngSubmit)="Update()"  style="text-align: center;">
+    <div *ngIf="adding" class="form-group">
+      <label >User Id</label>
+      <input type="number"  formControlName="uid"  >
+    </div>
+    <div class="form-group">
+      <label >First Name</label>
+      <input type="text"  formControlName="full_name"  >
+    </div>
+  
+    <div formGroupName="address">
+    <div class="form-group">
+      <label >Street</label>
+      <input type="text" formControlName="street"   >
+    </div>
+    <div class="form-group">
+      <label >State</label>
+      <input type="text" formControlName="state"  >
+    </div>
+    <div class="form-group">
+      <label >City</label>
+      <input type="text" formControlName="city"   >
+    </div>
+    <div class="form-group">
+      <label >zip</label>
+      <input type="text" formControlName="zip"   >
+    </div>
+  </div>
+    <button type="submit" *ngIf="adding"  class="btn btn-primary">Add Customer</button>
+    <button type="submit" *ngIf="!adding"  class="btn btn-primary">Update Customer</button>
+  </form>
+</div>
+</ng-template>
+
+
+<!-- Add your grid page here -->

@@ -1,0 +1,25 @@
+
+<div class="main">
+    <button (click)="Change()" class="btn">Order By Customers</button>
+
+    <div *ngIf="Layout=='all'" class="card">
+        <h2>Find The Order</h2>
+      <div class="input-wrap">
+        <img src="https://findthycity.herokuapp.com/assets/Group%201.png" width="18px" class="search">
+        <input type="search" [(ngModel)] = searchTerm placeholder="Find the order  By customer name">
+      </div>
+      <div *ngFor="let order of orders | searchFilter: searchTerm" class="order" >
+      Order ID :              #{{ order.orderid }}.    {{ order.pname }}      | {{ order.price }}  By {{ order.c_name }}
+      </div>
+    </div>
+    <div *ngIf="Layout=='group'" >
+        <li *ngFor="let order of orders | groupBy: 'c_name'">
+         Customer Name : {{ order.key }}
+            <ol *ngFor="let item  of order.value" >
+             #{{ item.orderid }}.    {{ item.pname }}      | {{ item.price }} 
+            </ol>
+                </li>
+    </div>
+    
+
+  </div>

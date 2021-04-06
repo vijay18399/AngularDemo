@@ -1,0 +1,11 @@
+<div class="card">
+    <div style="text-align: center;" class="card-body">
+     <img width="50%" src="https://ui-avatars.com/api/?name={{fullName}}" >
+      <h5 class="card-title">{{fullName }}</h5>
+      <p class="card-text"> {{address['street'] }} ,{{address['city'] }} ,{{address['state'] }}</p>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <button type="button" (click)="detailsOf(uid)" class="btn btn-outline-primary">Details</button>
+      <button type="button" (click)="Edit(Index)" class="btn btn-outline-secondary">Edit</button>
+    </div>
+    </div>
+  </div>

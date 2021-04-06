@@ -1,0 +1,27 @@
+p {
+  font-family: Lato;
+}
+
+ul{
+  list-style: none;
+  margin:0;
+  padding:0;
+  width: 100%;
+  overflow: hidden;
+}
+
+ul > li {
+  float: left;
+  padding: .5rem;
+}
+
+ul > li > a {
+  text-decoration: none;
+  background: #eee;
+  padding: .4rem;
+}
+
+ul > li > a:hover {
+  background: #e2e2e2;
+  transition: background ease .4s;
+}

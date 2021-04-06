@@ -1,0 +1,16 @@
+<div class="center">
+  Showing Customer details for UID: {{id}}
+
+  <table  align="center">
+    <tr>User ID : {{ user.uid }}</tr>
+    <tr>Full Name : {{ user.full_name }}</tr>
+    <tr>Street: {{ user.address.street }}</tr>
+    <tr>City : {{ user.address.city }}</tr>
+    <tr>State : {{ user.address.state }}</tr>
+    <tr>Zip : {{ user.address.zip }}</tr>
+  </table>
+  <div style="text-align: center;">
+    <a class="btn btn-primary" href="/customers" >Back</a>
+  </div>
+ 
+</div>
