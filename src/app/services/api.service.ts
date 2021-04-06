@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 
 import {  Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
 import { Customer } from '../interfaces/customer';
 import { Order } from '../interfaces/order';
 @Injectable({
@@ -39,6 +38,13 @@ export class ApiService {
       catchError(this.errorHandler)
     )
   }
+  getOrders(): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(this.apiServer + '/orders')
+    .pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
 
   update(id, Customer): Observable<Customer> {
     console.log(id);
