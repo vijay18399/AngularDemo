@@ -25,6 +25,6 @@ export class AuthService {
 
   public validate(username, password) {
     
-    return this.http.post('http://naaserver.herokuapp.com/authenticate', {'username' : username, 'password' : password}).toPromise()
+    return this.http.post('https://naaserver.herokuapp.com/authenticate', {'username' : username, 'password' : password}).toPromise()
   }
 }

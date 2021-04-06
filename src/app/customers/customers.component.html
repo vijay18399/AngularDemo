@@ -1,7 +1,7 @@
 <div class="bar">
   <h1>Customers</h1>
-<a class="btn btn-primary" (click)="layoutChanger()" >Change Layout to {{ layout }}</a>
-<a class="btn btn-success" (click)="Add()" >Add Customer</a>
+<a *ngIf="!editing" class="btn btn-primary" (click)="layoutChanger()" >Change Layout to {{ layout }}</a>
+<a  class="btn btn-success" (click)="Add()" >Add Customer</a>
 </div>
 <hr>
 <div class="container-fluid">
