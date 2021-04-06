@@ -57,19 +57,12 @@ export class CustomersComponent implements OnInit {
   Update() {
     this.customers[this.editIndex] = this.CustomerForm.value;
     if (this.CustomerForm.value.uid) {
-      alert("creating");
       this.apiService.create(this.CustomerForm.value).subscribe(res => {
-        console.log(res);
         this.updateCustomers();
-        alert('Product created!');
-     
       });
     } else {
-      alert("editing");
       this.apiService.update(this.editData.uid,this.CustomerForm.value).subscribe(res => {
-        console.log(res);
         this.updateCustomers();
-        alert('Product Edited!');
       });
       this.customers[this.editIndex].uid = this.editData.uid;
       this.editData = null;
