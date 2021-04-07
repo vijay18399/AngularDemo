@@ -26,6 +26,8 @@ export class CustomerComponent implements OnInit {
       });
    });
   }
-
+  Back(){
+    this.router.navigate(['/customers']);
+  }
 
 }
