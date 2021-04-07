@@ -55,8 +55,8 @@
       <input type="text" formControlName="zip"   >
     </div>
   </div>
-    <button type="submit" *ngIf="adding"  class="btn btn-primary">Add Customer</button>
-    <button type="submit" *ngIf="!adding"  class="btn btn-primary">Update Customer</button>
+    <button type="submit" *ngIf="adding"   [disabled]="!CustomerForm.valid"  class="btn btn-primary">Add Customer</button>
+    <button type="submit" *ngIf="!adding"  [disabled]="!CustomerForm.valid"   class="btn btn-primary">Update Customer</button>
   </form>
 </div>
 </ng-template>

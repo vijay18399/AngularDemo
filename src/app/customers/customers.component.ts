@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder,Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 
@@ -12,7 +12,7 @@ import { Customer } from '../interfaces/customer';
 export class CustomersComponent implements OnInit {
   adding = false;
   CustomerForm = null;
-  constructor(private router: Router, private apiService: ApiService) {}
+  constructor(private fb: FormBuilder,private router: Router, private apiService: ApiService) {}
   term = '';
   editing = false;
   editData = null;
@@ -42,13 +42,13 @@ export class CustomersComponent implements OnInit {
   }
   Edit(index:number) {
     this.editData = this.customers[index];
-    this.CustomerForm = new FormGroup({
-      full_name: new FormControl(this.editData.full_name),
-      address: new FormGroup({
-        street: new FormControl(this.editData.address.street),
-        city: new FormControl(this.editData.address.city),
-        state: new FormControl(this.editData.address.state),
-        zip: new FormControl(this.editData.address.zip),
+    this.CustomerForm = this.fb.group({
+      full_name:  [this.editData.full_name, Validators.required],
+      address: this.fb.group({
+        street: [this.editData.address.street, Validators.required],
+        city: [this.editData.address.city, Validators.required],
+        state: [this.editData.address.state, Validators.required],
+        zip: [this.editData.address.zip, Validators.required]
       }),
     });
     this.editIndex = index;
@@ -78,14 +78,13 @@ export class CustomersComponent implements OnInit {
   Add() {
     this.adding = true;
     this.editing = true;
-    this.CustomerForm = new FormGroup({
-      uid: new FormControl(),
-      full_name: new FormControl(),
-      address: new FormGroup({
-        street: new FormControl(),
-        city: new FormControl(),
-        state: new FormControl(),
-        zip: new FormControl(),
+    this.CustomerForm = this.fb.group({
+      full_name:  ['', Validators.required],
+      address: this.fb.group({
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        zip: ['', Validators.required]
       }),
     });
   }
