@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 
@@ -10,9 +10,16 @@ import { Customer } from '../interfaces/customer';
   styleUrls: ['./customers.component.css'],
 })
 export class CustomersComponent implements OnInit {
+  submitted = false;
+  cities = ['bangalore', 'rajamundry', 'mumbai', 'amaravathi'];
+  states = ['ap', 'mp', 'telangana', 'karnataka'];
   adding = false;
-  CustomerForm = null;
-  constructor(private fb: FormBuilder,private router: Router, private apiService: ApiService) {}
+  customerForm = null;
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiService: ApiService
+  ) {}
   term = '';
   editing = false;
   editData = null;
@@ -25,7 +32,16 @@ export class CustomersComponent implements OnInit {
       this.customers = data;
     });
   }
-  updateCustomers(){
+  public get addressGroup(): FormGroup {
+    return this.customerForm.get('address') as FormGroup;
+  }
+  get cc() {
+    return this.customerForm.controls;
+  }
+  get ac() {
+    return this.addressGroup.controls;
+  }
+  updateCustomers() {
     this.apiService.getAll().subscribe((data: Customer[]) => {
       this.customers = data;
     });
@@ -40,52 +56,58 @@ export class CustomersComponent implements OnInit {
       this.layout = 'grid';
     }
   }
-  Edit(index:number) {
+  Edit(index: number) {
     this.editData = this.customers[index];
-    this.CustomerForm = this.fb.group({
-      full_name:  [this.editData.full_name, Validators.required],
+    this.customerForm = this.fb.group({
+      full_name: [this.editData.full_name, Validators.required],
       address: this.fb.group({
         street: [this.editData.address.street, Validators.required],
         city: [this.editData.address.city, Validators.required],
         state: [this.editData.address.state, Validators.required],
-        zip: [this.editData.address.zip, Validators.required]
+        zip: [this.editData.address.zip, Validators.required],
       }),
     });
     this.editIndex = index;
     this.editing = true;
   }
   Update() {
-    this.customers[this.editIndex] = this.CustomerForm.value;
-    if (this.CustomerForm.value.uid) {
-      this.apiService.create(this.CustomerForm.value).subscribe(res => {
-        this.updateCustomers();
-      });
-    } else {
-      this.apiService.update(this.editData.uid,this.CustomerForm.value).subscribe(res => {
-        this.updateCustomers();
-      });
+    this.submitted = true;
+    if (this.customerForm.valid) {
+      this.customers[this.editIndex] = this.customerForm.value;
+      this.apiService
+        .update(this.editData.uid, this.customerForm.value)
+        .subscribe((res) => {
+          alert('customer Updated Successfully');
+          this.updateCustomers();
+        });
       this.customers[this.editIndex].uid = this.editData.uid;
       this.editData = null;
       this.editIndex = null;
+      this.editing = false;
     }
-
-    this.editing = false;
-    this.adding = false;
   }
   detailsOf(uid) {
     this.router.navigate(['/customer', uid]);
   }
-  Add() {
-    this.adding = true;
-    this.editing = true;
-    this.CustomerForm = this.fb.group({
-      full_name:  ['', Validators.required],
-      address: this.fb.group({
-        street: ['', Validators.required],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        zip: ['', Validators.required]
-      }),
+
+  Back() {
+    this.editing = false;
+  }
+  get cityName() {
+    return this.customerForm.get(['address', 'city']);
+  }
+  changeCity(e) {
+    console.log(e.target.value);
+    this.cityName.setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
+  get stateName() {
+    return this.customerForm.get(['address', 'state']);
+  }
+  changeState(e) {
+    this.stateName.setValue(e.target.value, {
+      onlySelf: true,
     });
   }
 }

@@ -1,11 +1,91 @@
-<div class="card">
-    <div  class="card-body">
-     
-      <h5 class="card-title">{{fullName }}</h5><img  width="55px" src="https://ui-avatars.com/api/?name={{fullName}}" >
-      <p class="card-text"> {{address['street'] }} ,{{address['city'] }} ,{{address['state'] }}</p>
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <button type="button" (click)="detailsOf(uid)" class="btn btn-outline-primary">Details</button>
-      <button type="button" (click)="Edit(Index)" class="btn btn-outline-secondary">Edit</button>
-    </div>
+<div
+  class="card"
+  style="width: 15rem; text-align: center"
+  *ngIf="layout == 'list'"
+>
+  <div class="card-body">
+    <h5 class="card-title">{{ fullName }}</h5>
+    <img
+      width="50px"
+      height="50px"
+      class="card-img-top"
+      src="https://ui-avatars.com/api/?name={{ fullName }}"
+    />
+
+    <p class="card-text">
+      <span class="badge badge-success badge-pill">
+        {{ address["street"] }}
+      </span>
+      <span class="badge badge-warning badge-pill">
+        {{ address["city"] }}
+      </span>
+      <span class="badge badge-primary badge-pill">
+        {{ address["state"] }}
+      </span>
+    </p>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <button
+        type="button"
+        (click)="detailsOf(uid)"
+        class="btn btn-outline-primary"
+      >
+        Details
+      </button>
+      <button
+        type="button"
+        (click)="Edit(Index)"
+        class="btn btn-outline-secondary"
+      >
+        Edit
+      </button>
     </div>
   </div>
+</div>
+<div class="card" height="75px;" *ngIf="layout == 'grid'">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-2">
+        <img
+          width="50px"
+          height="50px"
+          class="card-img-top"
+          src="https://ui-avatars.com/api/?name={{ fullName }}"
+        />
+      </div>
+      <div class="col-2">
+        <h4 style="color: chocolate">{{ fullName }}</h4>
+      </div>
+      <div class="col-6">
+        <p class="card-text">
+          <span class="badge badge-success badge-pill">
+            {{ address["street"] }}
+          </span>
+          <span class="badge badge-warning badge-pill">
+            {{ address["city"] }}
+          </span>
+          <span class="badge badge-primary badge-pill">
+            {{ address["state"] }}
+          </span>
+        </p>
+      </div>
+      <div class="col-2">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <button
+            type="button"
+            (click)="detailsOf(uid)"
+            class="btn btn-outline-primary"
+          >
+            Details
+          </button>
+          <button
+            type="button"
+            (click)="Edit(Index)"
+            class="btn btn-outline-secondary"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

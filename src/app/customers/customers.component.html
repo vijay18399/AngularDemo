@@ -1,65 +1,122 @@
-<div class="bar">
-  <h1>Customers</h1>
-<a *ngIf="!editing" class="btn btn-primary" (click)="layoutChanger()" >Change Layout to {{ layout }}</a>
-<a  class="btn btn-success" (click)="Add()" >Add Customer</a>
-</div>
-<hr>
 <div class="container-fluid">
-<div *ngIf="!editing; else editBlock" class="row">
-  <div class="col-sm-12 form-group">
-    <label for="exampleInputEmail1">Search</label>
-    <input type="text" class="form-control" placeholder="Search Here by First Name" [(ngModel)]="term">
-  </div>
-  <br>
-  <div *ngFor="let customer of customers| filter: term;  let i = index " class="{{gridClass}}">
-    <!-- <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{customer.full_name }}</h5>
-        <p class="card-text"> {{customer.address.street }} ,{{customer.address.city }} ,{{customer.address.state }}</p>
-        <a  (click)="detailsOf(customer.uid)" class="btn btn-primary">Details</a>    <a (click)="Edit(i)" class="btn btn-danger">Edit</a>
+  <br />
+
+  <div *ngIf="!editing; else editBlock" class="row">
+    <div class="col-5 offset-4 form-group">
+      <label for="exampleInputEmail1">Search</label>
+      <input
+        class="form-control"
+        type="text"
+        class="form-control"
+        placeholder="Search Here by Full Name"
+        [(ngModel)]="term"
+      />
+    </div>
+    <div class="col-2">
+      <a *ngIf="!editing" class="btn btn-primary" (click)="layoutChanger()"
+        >Change Layout to {{ layout }}</a
+      >
+    </div>
+    <br />
+    <div class="row">
+      <div
+        *ngFor="let customer of customers | filter: term; let i = index"
+        class="{{ gridClass }}"
+      >
+        <app-card
+          (editButton)="Edit($event)"
+          [layout]="layout"
+          (detailButton)="detailsOf($event)"
+          [fullName]="customer.full_name"
+          [address]="customer.address"
+          [Index]="i"
+          [uid]="customer.uid"
+        ></app-card>
       </div>
-    </div> -->
- <app-card  (editButton)="Edit($event)" (detailButton)="detailsOf($event)" [fullName]="customer.full_name"
- [address]="customer.address" [Index]="i" [uid]="customer.uid"  ></app-card>
+    </div>
   </div>
- 
 </div>
-</div>
+
 <ng-template #editBlock>
-  <div  class="container-fluid">
-  <form [formGroup]="CustomerForm"  (ngSubmit)="Update()"  style="text-align: center;">
-    <div *ngIf="adding" class="form-group">
-      <label >User Id</label>
-      <input type="number"  formControlName="uid"  >
-    </div>
-    <div class="form-group">
-      <label >First Name</label>
-      <input type="text"  formControlName="full_name"  >
-    </div>
-  
-    <div formGroupName="address">
-    <div class="form-group">
-      <label >Street</label>
-      <input type="text" formControlName="street"   >
-    </div>
-    <div class="form-group">
-      <label >State</label>
-      <input type="text" formControlName="state"  >
-    </div>
-    <div class="form-group">
-      <label >City</label>
-      <input type="text" formControlName="city"   >
-    </div>
-    <div class="form-group">
-      <label >zip</label>
-      <input type="text" formControlName="zip"   >
-    </div>
+  <div class="row">
+    <form
+      [formGroup]="customerForm"
+      class="col-md-8 offset-md-2"
+      (ngSubmit)="Update()"
+    >
+      <div class="form-group">
+        <label>First Name</label>
+        <input class="form-control" type="text" formControlName="full_name" />
+        <div
+          *ngIf="submitted && cc.full_name.errors"
+          class="alert alert-warning"
+        >
+          <div *ngIf="cc.full_name.errors.required">full name is required</div>
+        </div>
+      </div>
+      <div formGroupName="address">
+        <div class="form-group">
+          <label>Street</label>
+          <input class="form-control" type="text" formControlName="street" />
+          <div
+            *ngIf="submitted && ac.street.errors"
+            class="alert alert-warning"
+          >
+            <div *ngIf="ac.street.errors.required">street is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <select
+            class="custom-select"
+            (change)="changeState($event)"
+            formControlName="state"
+          >
+            <option value="" disabled>Choose your state</option>
+            <option *ngFor="let state of states" [value]="state">
+              {{ state }}
+            </option>
+          </select>
+          <div *ngIf="submitted && ac.state.errors" class="alert alert-warning">
+            <div *ngIf="ac.state.errors.required">state is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <select
+            class="custom-select"
+            (change)="changeCity($event)"
+            formControlName="city"
+          >
+            <option value="" disabled>Choose your city</option>
+            <option *ngFor="let city of cities" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+          <div *ngIf="submitted && ac.city.errors" class="alert alert-warning">
+            <div *ngIf="ac.city.errors.required">City is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>zip</label>
+          <input class="form-control" type="number" formControlName="zip" />
+          <div *ngIf="submitted && ac.zip.errors" class="alert alert-warning">
+            <div *ngIf="ac.zip.errors.required">Zip Code is required</div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="!customerForm.valid"
+        class="btn btn-primary"
+      >
+        Update Customer
+      </button>
+      <button type="button" (click)="Back()" class="btn btn-success">
+        Back
+      </button>
+    </form>
   </div>
-    <button type="submit" *ngIf="adding"   [disabled]="!CustomerForm.valid"  class="btn btn-primary">Add Customer</button>
-    <button type="submit" *ngIf="!adding"  [disabled]="!CustomerForm.valid"   class="btn btn-primary">Update Customer</button>
-  </form>
-</div>
 </ng-template>
 
-
-<!-- Add your grid page here -->

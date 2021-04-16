@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() fullName: string;
+  @Input() layout: string;
   @Input() Index: number;
   @Input() address: Object;
   @Input()  uid  : number;
