@@ -7,12 +7,14 @@ import { CustomerComponent } from "./customer/customer.component";
 import { OrdersComponent } from "./orders/orders.component";
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { 
   AuthGuardService as AuthGuard 
 } from './auth-guard.service';
 const routes: Routes = [
   { path: "home", component: HomeComponent , canActivate : [AuthGuard] },
   { path: "about", component: AboutComponent , canActivate : [AuthGuard] },
+  { path: "add-customer", component: AddCustomerComponent , canActivate : [AuthGuard] },
   { path: "customers", component: CustomersComponent , canActivate : [AuthGuard] },
   { path: "customer/:id", component: CustomerComponent , canActivate : [AuthGuard] }, 
   { path: "orders", component: OrdersComponent , canActivate : [AuthGuard] },

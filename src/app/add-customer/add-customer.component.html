@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="row">
+    <form
+      [formGroup]="customerForm"
+      (ngSubmit)="Add()"
+      class="col-md-8 offset-md-2"
+    >
+      <div class="form-group">
+        <label>First Name</label>
+        <input class="form-control" type="text" formControlName="full_name" />
+        <div
+          *ngIf="submitted && cc.full_name.errors"
+          class="alert alert-warning"
+        >
+          <div *ngIf="cc.full_name.errors.required">full name is required</div>
+        </div>
+      </div>
+      <div formGroupName="address">
+        <div class="form-group">
+          <label>Street</label>
+          <input class="form-control" type="text" formControlName="street" />
+          <div
+            *ngIf="submitted && ac.street.errors"
+            class="alert alert-warning"
+          >
+            <div *ngIf="ac.street.errors.required">Street is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <select
+            class="custom-select"
+            (change)="changeState($event)"
+            formControlName="state"
+          >
+            <option value="" disabled>Choose your state</option>
+            <option *ngFor="let state of states" [value]="state">
+              {{ state }}
+            </option>
+          </select>
+          <div *ngIf="submitted && ac.state.errors" class="alert alert-warning">
+            <div *ngIf="ac.state.errors.required">State is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <select
+            class="custom-select"
+            (change)="changeCity($event)"
+            formControlName="city"
+          >
+            <option value="" disabled>Choose your city</option>
+            <option *ngFor="let city of cities" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+          <div *ngIf="submitted && ac.city.errors" class="alert alert-warning">
+            <div *ngIf="ac.city.errors.required">City is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>zip</label>
+          <input class="form-control" type="number" formControlName="zip" />
+          <div *ngIf="submitted && ac.zip.errors" class="alert alert-warning">
+            <div *ngIf="ac.zip.errors.required">zip is required</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+
+        <button type="button" routerLink="/customers" class="btn btn-success">
+          Back
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

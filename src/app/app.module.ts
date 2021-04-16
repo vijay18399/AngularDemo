@@ -15,6 +15,7 @@ import { NgGroupByPipeModule } from 'angular-pipes';
 import { HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './card/card.component';
 import { LoginComponent } from './login/login.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
 @NgModule({
   imports: [AppRoutingModule, BrowserModule, FormsModule,ReactiveFormsModule,NgGroupByPipeModule,HttpClientModule],
   declarations: [
@@ -27,7 +28,8 @@ import { LoginComponent } from './login/login.component';
     SearchFilterPipe,
     AboutComponent,
     CardComponent,
-    LoginComponent
+    LoginComponent,
+    AddCustomerComponent
   ],
   bootstrap: [AppComponent]
 })
