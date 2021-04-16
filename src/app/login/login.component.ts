@@ -9,6 +9,7 @@ import { FormBuilder,Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  submitted =false;
   LoginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
@@ -18,9 +19,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
   }
-
+  get lc() {
+    return this.LoginForm.controls;
+  }
   login(){
-  
+    this.submitted =true;
+  if(this.LoginForm.valid){
     this.authService.validate(this.LoginForm.value.username, this.LoginForm.value.password)
     .then((response) => {
       console.log(response);
@@ -31,6 +35,8 @@ export class LoginComponent implements OnInit {
     .catch((error) => {
       alert("Incorrect Username or Password");
     })
+  }
+
   }
 
 

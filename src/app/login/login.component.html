@@ -1,16 +1,28 @@
 
-  <div  class="container-fluid">
-    <form [formGroup]="LoginForm"  (ngSubmit)="login()"  style="text-align: center;">
+  <div  class="row">
+    <form [formGroup]="LoginForm"  (ngSubmit)="login()"  class="col-md-5 offset-md-4">
 
-  <div class="form-group">
+  <div class="form-group ">
     <label >username</label>
-    <input type="text" formControlName="username"   >
+    <input class="form-control" type="text" formControlName="username"   >
+    <div
+    *ngIf="submitted && lc.username.errors"
+    class="alert alert-warning"
+  >
+    <div *ngIf="lc.username.errors.required">Username is required</div>
+  </div>
   </div>
   <div class="form-group">
     <label >password</label>
-    <input type="password" formControlName="password"   >
+    <input class="form-control" type="password" formControlName="password"   >
+    <div
+    *ngIf="submitted && lc.password.errors"
+    class="alert alert-warning"
+  >
+    <div *ngIf="lc.password.errors.required">password is required</div>
+  </div>
   </div>
 
-  <button type="submit" [disabled]="!LoginForm.valid"  class="btn btn-primary">Login</button>
+  <button type="submit"  class="btn btn-primary">Login</button>
 </form>
 </div>
